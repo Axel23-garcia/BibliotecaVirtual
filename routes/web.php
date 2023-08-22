@@ -18,6 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// INDEX CONTACTO
+// INDEX LIBROS
 Route::get('/libros',[LibrosController::class,'index'])->name('libro.index');
 
+// SHOW LIBROS
+Route::get('/libros/{id}/show',[LibrosController::class,'show'])->where('id','[0-9]+')->name('libro.show');
