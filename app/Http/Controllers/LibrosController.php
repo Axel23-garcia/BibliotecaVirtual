@@ -13,7 +13,7 @@ class LibrosController extends Controller
     public function index()
     {
         //          MODELO  NUMERO DE DATOS QUE QUIERO QUE SALGAN
-        $libro = Libro::paginate(10); // este es el numero de datos que va a reflejar
+        $libro = Libro::paginate(12); // este es el numero de datos que va a reflejar
         return view('Libro.Lindex')->with('libros',$libro);
     }
 

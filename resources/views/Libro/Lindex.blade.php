@@ -4,20 +4,19 @@
 
 @section('contenido') {{-- ESTA PARTE SIEMPRE VA--}}
 
-<h1><center>Tabla de Libros (index)</center></h1>
+<h1><center>Tabla de Libros </center></h1>
 <button><center><a class="btn btn" href= ""><u>Crear</u></a></center></button>
 
 
-<table class="table" class="pagination">
-    <thead>
-    <th>id</th>
-    <th>Titulo</th>
-    <th>Autor</th>
-    <th>Editorial</th>
-    <th>Año Publicacion</th>
-    <th>Cantidad Disponible</th>
-    <th>Editar</th>
-    <th>Eliminar</th>
+<table class="table  table-hover" class="pagination">
+
+    <thead class="table-light">
+    <th scope="col">id</th>
+    <th scope="col">Titulo</th>
+    <th scope="col">Autor</th>
+    <th scope="col">Editorial</th>
+    <th scope="col">Año Publicacion</th>
+    <th scope="col">Cantidad Disponible</th>
 
 
 
@@ -25,19 +24,19 @@
     <tbody>
     @forelse($libros as $libro) {{-- ESTA PARTE SIEMPRE VA--}}
     <tr>
-        <td>{{$libro->id}}</td>
-        <td>{{$libro->titulo}}</td> {{-- ESTOS SON LOS DATOS DE LA TABLA(MIGRACION) --}}
-        <td>{{$libro->autor}}</td>
-        <td>{{$libro->editorial}}</td>
-        <td>{{$libro->anio_publicacion}}</td>
-        <td>{{$libro->cantidad_disponible}}</td>
-        <td><a href= "" >EDITAR</a></td>
+        <td class="table-danger" ><a href="">{{$libro->id}}</td>
+        <td class="table-danger">{{$libro->titulo}}</td> {{-- ESTOS SON LOS DATOS DE LA TABLA(MIGRACION) --}}
+        <td class="table-danger">{{$libro->autor}}</td>
+        <td class="table-danger">{{$libro->editorial}}</td>
+        <td class="table-danger">{{$libro->anio_publicacion}}</td>
+        <td class="table-danger">{{$libro->cantidad_disponible}}</td>
+        <td><a href= "" >Editar</a></td>
 
         <td>
             <form  method="post" action="">
                 @method("DELETE")
                 @csrf
-                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <td><a href= "" >Eliminar</a></td>
             </form>
         </td>
 
