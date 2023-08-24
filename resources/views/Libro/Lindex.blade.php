@@ -1,14 +1,22 @@
-@extends('Plantilla.plantilla')  {{-- ESTA PARTE SIEMPRE VA--}}
+@extends('Plantilla.plantilla')
 
-@section('titulo','index') {{-- ESTA PARTE SIEMPRE VA--}}
+@section('titulo','index')
 
-@section('contenido') {{-- ESTA PARTE SIEMPRE VA--}}
+@section('contenido')
 
-<h1><center>Tabla de Libros </center></h1>
-<button><center><a class="btn btn" href= ""><u>Crear</u></a></center></button>
+    @if(session('mensaje'))
+        <div class="alert alert-success d-flex align-items-center" role="alert">
+            <strong>Comfirmacion!</strong> {{session('mensaje')}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
+        <h1><center>Tabla De Libros </center></h1>
 
-<table class="table  table-hover" class="pagination">
+<a class="btn btn-primary" href="{{route('libros.crear')}}">Crear</a>
+<br>
+<br>
+<table class="table  table-striped" class="pagination">
 
     <thead class="table-light">
     <th scope="col">id</th>
@@ -22,35 +30,35 @@
 
     </thead>
     <tbody>
-    @forelse($libros as $libro) {{-- ESTA PARTE SIEMPRE VA--}}
+    @forelse($libros as $libro)
     <tr>
-        <td class="table-danger" ><a href="">{{$libro->id}}</td>
-        <td class="table-danger">{{$libro->titulo}}</td> {{-- ESTOS SON LOS DATOS DE LA TABLA(MIGRACION) --}}
+        <td class="table-danger"><a href= "{{route('libro.show', ['id'=>$libro->id])}}" >{{$libro->id}}</a></td>
+        <td class="table-success">{{$libro->titulo}}</td>
         <td class="table-danger">{{$libro->autor}}</td>
-        <td class="table-danger">{{$libro->editorial}}</td>
+        <td class="table-success">{{$libro->editorial}}</td>
         <td class="table-danger">{{$libro->anio_publicacion}}</td>
-        <td class="table-danger">{{$libro->cantidad_disponible}}</td>
-        <td><a href= "" >Editar</a></td>
+        <td class="table-success">{{$libro->cantidad_disponible}}</td>
+        <td><a href= "{{route('libro.editar', ['id'=>$libro->id])}}" >Editar</a></td>
 
         <td>
-            <form  method="post" action="">
+            <form  method="post" action="{{route('libro.borrar', [$libro->id])}}">
                 @method("DELETE")
                 @csrf
-                <td><a href= "" >Eliminar</a></td>
+                <td><button type="submit" class="btn btn-primary" >Eliminar</button></td>
             </form>
         </td>
 
 
     </tr>
-    @empty {{-- EL EMPTY SOLO MUESTRA UNA TABLA CUANDO NO AHI DATOS--}}
+    @empty
     <tr>
         <td colspan="5">No hay libros</td>
     </tr>
-    @endforelse {{-- ESTA PARTE SIEMPRE VA--}}
+    @endforelse
 
     </tbody>
 </table>
 
-{{ $libros->render('pagination::bootstrap-4') }} {{-- ESTO SE PONE PARA QUE NO TENGAN EL ERROR DE JUNIUR --}}
+{{ $libros->render('pagination::bootstrap-4') }}
 
-@endsection() {{-- ESTA PARTE SIEMPRE VA--}}
+@endsection()

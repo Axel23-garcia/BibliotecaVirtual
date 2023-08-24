@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 
 class UsuariosController extends Controller
@@ -11,7 +12,9 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        //
+
+        $usuario = Usuario::paginate(10);
+        return view('Usuario.Uindex')->with('usuarios',$usuario);
     }
 
     /**
@@ -19,7 +22,7 @@ class UsuariosController extends Controller
      */
     public function create()
     {
-        //
+        return view('Usuario.Ucreate');
     }
 
     /**
@@ -27,7 +30,27 @@ class UsuariosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre'=>'required',
+            'correo_electronico'=>'required|',
+            'telefono'=>'required|regex:/[0-9]/',
+            'direccion'=>'required',
+
+        ]);
+
+
+        $usuario = new Usuario();
+        $usuario->nombre=$request->input('nombre');
+        $usuario->correo_electronico=$request->input('correo_electronico');
+        $usuario->telefono=$request->input('telefono');
+        $usuario->direccion=$request->input('direccion');
+
+
+        if ($usuario->save()){
+            $mensaje = "El usuario se creo  exitosamente";
+        }
+
+        return redirect()->route('usuario.index')->with('mensaje',$mensaje);
     }
 
     /**
@@ -35,7 +58,9 @@ class UsuariosController extends Controller
      */
     public function show(string $id)
     {
-        //
+
+        $usuario = Usuario::findOrfail($id);
+        return view('Usuario.Ushow' , compact('usuario'));
     }
 
     /**
@@ -43,7 +68,9 @@ class UsuariosController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $usuario = Usuario::findOrfail($id);
+        return view('usuario.Uedit')->with('usuario',$usuario);
+
     }
 
     /**
@@ -51,7 +78,30 @@ class UsuariosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $usuario = Usuario::findOrfail($id);
+
+        $request->validate([
+            'nombre'=>'required',
+            'correo_electronico'=>'required',
+            'telefono'=>'required|regex:/[0-9]/',
+            'direccion'=>'required|',
+
+        ]);
+
+
+        $usuario->nombre=$request->input('nombre');
+        $usuario->correo_electronico=$request->input('correo_electronico');
+        $usuario->telefono=$request->input('telefono');
+        $usuario->direccion=$request->input('direccion');
+
+
+        if ($usuario->save()){
+            $mensaje = "Se actualizaron los datos correctamente";
+        }
+
+        return redirect()->route('usuario.index')->with('mensaje',$mensaje);
+
+
     }
 
     /**
@@ -59,6 +109,7 @@ class UsuariosController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Usuario::destroy($id);
+        return redirect()->route('usuario.index');
     }
 }
